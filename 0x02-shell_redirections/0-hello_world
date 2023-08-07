@@ -1,1 +1,2 @@
-This is shell redirections readme
+#/bin/bash 
+echo 'Hello, World'
