@@ -1,5 +1,3 @@
-#!/usr/bin/bash
-# Connect to server over ssh with private key
-
+#!/usr/bin/env bash
+#Connect to server over ssh with private key
 ssh -i ~/.ssh.id_rsa ubuntu@54.146.77.247
-
