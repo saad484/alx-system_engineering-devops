@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
-# Installs nginx server
-apt-get update
+# Installs nginx web server
+
+# Log file location
+log_file="/var/log/nginx_installation.log"
+
+# Redirect both stdout and stderr to the log file
+exec >> "$log_file" 2>&1
+
+# Update package repositories and install Nginx
+apt-get -y update
 apt-get -y install nginx
+
+# Allow HTTP traffic through the firewall for Nginx
 ufw allow 'Nginx HTTP'
-echo "Hello World!" > /var/www/html/index.html
+
+# Create a simple Hello World index file
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+
+# Start the Nginx service
 service nginx start
