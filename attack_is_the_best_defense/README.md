@@ -1,5 +1,41 @@
 ### Attack is the best defense
 
+## ARP spoofing and sniffing unencrypted traffic
+
+# Network Sniffing for Passwords - Security Project
+
+## Introduction
+
+Security is a crucial aspect of any system, and network security plays a significant role. Unencrypted traffic poses a potential risk as it can be intercepted and analyzed by malicious entities. This project focuses on sniffing unencrypted traffic to gather information, emphasizing the importance of securing communication channels.
+
+In this specific scenario, the project involves sniffing telnet traffic to extract sensitive information. The target is an email service, Sendgrid, which offers both secure and unsecured communication methods. The provided script, `user_authenticating_into_server`, replicates the telnet authentication process to demonstrate the vulnerability.
+
+## Project Steps
+
+1. **Telnet Authentication:**
+   Execute the provided script `user_authenticating_into_server` locally on your Linux machine, preferably Ubuntu.
+
+2. **Sniffing with Tcpdump:**
+   Use the `tcpdump` tool to capture network traffic during the telnet authentication process.
+
+3. **Find the Password:**
+   Analyze the captured network traffic to identify the password used in the telnet authentication.
+
+## Execution Instructions
+
+- Ensure you run the script on a Linux machine, such as an Ubuntu vagrant machine. The script may not work on Docker containers or Mac OS.
+
+- Download the script [user_authenticating_into_server](link_to_script) from the repository.
+
+- Execute the script:
+  ```bash
+  bash user_authenticating_into_server
+
+## Analyze the captured data to find the password used in the telnet authentication with wireshark
+![](image.png)
+
+- Let's decode the base64
+![](image-1.png)
 
 ## Dictionary attack
 
