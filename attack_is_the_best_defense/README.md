@@ -34,7 +34,8 @@ In this specific scenario, the project involves sniffing telnet traffic to extra
 ## Analyze the captured data to find the password used in the telnet authentication with wireshark
 ![](image.png)
 
-- Let's decode the base64
+#### Let's decode the base64:
+
 ![](image-1.png)
 
 ## Dictionary attack
