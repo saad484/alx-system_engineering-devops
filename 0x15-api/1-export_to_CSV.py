@@ -37,4 +37,3 @@ if __name__ == "__main__":
         write = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
         for i in json_req:
             write.writerow([idEmp, usr, i.get('completed'), i.get('title')])
-            
