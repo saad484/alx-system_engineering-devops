@@ -1,43 +1,37 @@
 #!/usr/bin/python3
-
 """
-Uses https://jsonplaceholder.typicode.com along with an employee ID to
-return information about the employee's todo list progress
+Script that, using this REST API, for a given employee ID, returns
+information about his/her TODO list progress
 """
 
+import json
 import requests
 from sys import argv
 
+
 if __name__ == "__main__":
-    if len(argv) != 2 or not argv[1].isdigit():
-        print("Usage: {} <employee_id>".format(argv[0]))
-        exit(1)
 
-    employee_id = int(argv[1])
-    base_url = "https://jsonplaceholder.typicode.com/"
-    user_url = "{}users/{}".format(base_url, employee_id)
-    todos_url = "{}todos?userId={}".format(base_url, employee_id)
+    sessionReq = requests.Session()
 
-    try:
-        user_response = requests.get(user_url)
-        user_response.raise_for_status()
-        user_data = user_response.json()
+    idEmp = argv[1]
+    idURL = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(idEmp)
+    nameURL = 'https://jsonplaceholder.typicode.com/users/{}'.format(idEmp)
 
-        todos_response = requests.get(todos_url)
-        todos_response.raise_for_status()
-        todos_data = todos_response.json()
+    employee = sessionReq.get(idURL)
+    employeeName = sessionReq.get(nameURL)
 
-        completed_tasks = [task for task in todos_data if task['completed']]
+    json_req = employee.json()
+    name = employeeName.json()['name']
 
-        print("Employee {} is done with tasks({}/{}):".format(
-            user_data['name'],
-            len(completed_tasks),
-            len(todos_data)
-        ))
+    totalTasks = 0
 
-        for task in completed_tasks:
-            print("\t{}".format(task['title']))
+    for done_tasks in json_req:
+        if done_tasks['completed']:
+            totalTasks += 1
 
-    except requests.exceptions.RequestException as e:
-        print("Error:", e)
-        exit(1)
+    print("Employee {} is done with tasks({}/{}):".
+          format(name, totalTasks, len(json_req)))
+
+    for done_tasks in json_req:
+        if done_tasks['completed']:
+            print("\t " + done_tasks.get('title'))
