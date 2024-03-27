@@ -1,50 +1,40 @@
 #!/usr/bin/python3
-"""Exports to-do list information for a given employee ID to CSV format."""
+"""
+Script that, using this REST API, for a given employee ID, returns
+information about his/her TODO list progress
+and export data in the CSV format.
+"""
+
 import csv
+import json
 import requests
-import sys
-
-
-def export_to_csv(employee_id, username, tasks):
-    filename = "{}.csv".format(employee_id)
-    with open(filename, "w", newline="") as csvfile:
-        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
-        for task in tasks:
-            writer.writerow([employee_id, username,
-                             task.get("completed"), task.get("title")])
-    print("Data exported to {}".format(filename))
+from sys import argv
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: {} <employee_id>".format(sys.argv[0]))
-        sys.exit(1)
 
-    user_id = sys.argv[1]
-    url = "https://jsonplaceholder.typicode.com/"
+    sessionReq = requests.Session()
 
-    try:
-        user = requests.get(url + "users/{}".format(user_id)).json()
-        username = user.get("username")
-        todos = requests.get(url + "todos", params={"userId": user_id}).json()
+    idEmp = argv[1]
+    idURL = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(idEmp)
+    nameURL = 'https://jsonplaceholder.typicode.com/users/{}'.format(idEmp)
 
-        if "name" not in user:
-            print("Employee not found.")
-            sys.exit(1)
+    employee = sessionReq.get(idURL)
+    employeeName = sessionReq.get(nameURL)
 
-        completed_tasks = [
-            {"completed": task["completed"], "title": task["title"]}
-            for task in todos if task["completed"]
-        ]
+    json_req = employee.json()
+    usr = employeeName.json()['username']
 
-        print("Employee {} is done with tasks({}/{}):".format(
-            username, len(completed_tasks), len(todos)))
+    totalTasks = 0
 
-        for task in completed_tasks:
-            print("\t{}".format(task["title"]))
+    for done_tasks in json_req:
+        if done_tasks['completed']:
+            totalTasks += 1
 
-        export_to_csv(user_id, username, completed_tasks)
+    fileCSV = idEmp + '.csv'
 
-    except requests.RequestException as e:
-        print("Error making API request:", e)
-        sys.exit(1)
+    with open(fileCSV, "w", newline='') as csvfile:
+        write = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
+        for i in json_req:
+            write.writerow([idEmp, usr, i.get('completed'), i.get('title')])
+            
