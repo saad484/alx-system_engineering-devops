@@ -3,7 +3,7 @@
 
 ### Incident Summary:
 
-On May 10th, 2022, between 2:30 PM and 5:00 PM (WAT), our e-commerce website experienced a complete outage, rendering it unresponsive to users.
+On Apr 15th, 2024, between 2:30 PM and 5:00 PM (WAT), our e-commerce website experienced a complete outage, rendering it unresponsive to users.
 
 ### Impact:
 
